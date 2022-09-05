@@ -1,0 +1,105 @@
+const payment = {
+  index: 0,
+  name: '',
+  value: ''
+};
+
+const user = {
+  name: '',
+  email: '',
+  avatar: '',
+  FCMTokens: ['']
+};
+
+const product = {
+  name: '',
+  category: '',
+  image: '',
+  descriptions: [''],
+  variants: [''],
+  durations: [0],
+  prices: [0],
+  discounts: [0]
+};
+
+const transaction = {
+  product: {
+    id: '',
+    name: '',
+    image: '',
+    price: 0,
+    discount: 0,
+    variant: '',
+    duration: 0
+  },
+  user: {
+    id: '',
+    name: '',
+    email: ''
+  },
+  payment: {
+    name: '',
+    status: '',
+    createdAt: 0,
+    expiredAt: 0,
+    link: ''
+  }
+};
+
+const message = {
+  sender: {
+    id: '',
+    name: '',
+    email: '',
+    avatar: ''
+  },
+  text: '',
+  timestamp: 0
+};
+
+const pendingChatRoom = {
+  name: '',
+  image: '',
+  duration: 0,
+  timestamp: 0,
+  status: '',
+  users: [
+    {
+      id: '',
+      name: '',
+      email: ''
+    }
+  ]
+};
+
+const chatRoom = {
+  name: '',
+  image: '',
+  latestMessage: message,
+  counter: 0,
+  duration: 0,
+  expiredAt: 0,
+  users: [
+    {
+      id: '',
+      name: '',
+      email: ''
+    }
+  ]
+};
+
+const notification = {
+  id: '',
+  sender: {
+    id: '',
+    name: '',
+    email: '',
+    avatar: ''
+  },
+  receiver: '',
+  message: {
+    title: '',
+    text: '',
+    timestamp: 0
+  }
+};
