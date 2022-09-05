@@ -14,7 +14,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// require('./routers')(app);
+require('./routers')(app);
 // require('./listeners')();
 
 const port = process.env.PORT || 5000;
