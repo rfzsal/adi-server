@@ -1,6 +1,5 @@
 const midtrans = require('../utils/midtrans');
 const transactions = require('../utils/transactions');
-const messages = require('../utils/messages');
 const notifications = require('../utils/notifications');
 
 /**
@@ -26,21 +25,6 @@ exports.handle = async (req, res) => {
   const product = JSON.parse(rawData.custom_field1);
   const user = JSON.parse(rawData.custom_field2);
 
-  const currentTimestamp = Date.now();
-  const chatRoomId = `${user.id}-${product.id}`;
-  const chatRoom = {
-    name: product.name,
-    image: product.image,
-    users: [user],
-    latestMessage: {
-      text: 'Sesi konsultasi akan segera dimulai',
-      sender: 'System',
-      timestamp: currentTimestamp
-    },
-    duration: product.duration,
-    expiredAt: 0
-  };
-
   if (transactionStatus === 'capture') {
     if (fraudStatus === 'challenge') {
       await transactions.update(transactionId, 'Transaksi Gagal');
@@ -52,7 +36,6 @@ exports.handle = async (req, res) => {
       });
     } else if (fraudStatus === 'accept') {
       await transactions.update(transactionId, 'Transaksi Berhasil');
-      messages.create(chatRoomId, chatRoom);
       notifications.send(user.id, {
         id: transactionId,
         title: 'Transaksi Berhasil',
@@ -62,7 +45,6 @@ exports.handle = async (req, res) => {
     }
   } else if (transactionStatus === 'settlement') {
     await transactions.update(transactionId, 'Transaksi Berhasil');
-    messages.create(chatRoomId, chatRoom);
     notifications.send(user.id, {
       id: transactionId,
       title: 'Transaksi Berhasil',
