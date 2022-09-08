@@ -26,10 +26,13 @@ exports.handle = async (req, res) => {
   const product = JSON.parse(rawData.custom_field1);
   const user = JSON.parse(rawData.custom_field2);
 
-  await updateUser(user.id, { name: user.name, university: user.university });
-
   if (transactionStatus === 'capture') {
     if (fraudStatus === 'challenge') {
+      await updateUser(user.id, {
+        name: user.name,
+        university: user.university,
+        ADIMember: 0
+      });
       await transactions.update(transactionId, 'Transaksi Gagal');
       notifications.send(user.id, {
         id: transactionId,
@@ -38,6 +41,11 @@ exports.handle = async (req, res) => {
         type: 'information'
       });
     } else if (fraudStatus === 'accept') {
+      await updateUser(user.id, {
+        name: user.name,
+        university: user.university,
+        ADIMember: Date.now + 31560000000000
+      });
       await transactions.update(transactionId, 'Transaksi Berhasil');
       notifications.send(user.id, {
         id: transactionId,
@@ -47,6 +55,11 @@ exports.handle = async (req, res) => {
       });
     }
   } else if (transactionStatus === 'settlement') {
+    await updateUser(user.id, {
+      name: user.name,
+      university: user.university,
+      ADIMember: Date.now + 31560000000000
+    });
     await transactions.update(transactionId, 'Transaksi Berhasil');
     notifications.send(user.id, {
       id: transactionId,
@@ -55,6 +68,11 @@ exports.handle = async (req, res) => {
       type: 'information'
     });
   } else if (transactionStatus === 'cancel' || transactionStatus == 'deny') {
+    await updateUser(user.id, {
+      name: user.name,
+      university: user.university,
+      ADIMember: 0
+    });
     await transactions.update(transactionId, 'Transaksi Gagal');
     notifications.send(user.id, {
       id: transactionId,
@@ -63,6 +81,11 @@ exports.handle = async (req, res) => {
       type: 'information'
     });
   } else if (transactionStatus === 'pending') {
+    await updateUser(user.id, {
+      name: user.name,
+      university: user.university,
+      ADIMember: 0
+    });
     await transactions.update(transactionId, 'Menunggu Pembayaran');
     notifications.send(user.id, {
       id: transactionId,
@@ -71,6 +94,11 @@ exports.handle = async (req, res) => {
       type: 'information'
     });
   } else if (transactionStatus === 'expire') {
+    await updateUser(user.id, {
+      name: user.name,
+      university: user.university,
+      ADIMember: 0
+    });
     await transactions.update(transactionId, 'Transaksi Kadaluarsa');
     notifications.send(user.id, {
       id: transactionId,
