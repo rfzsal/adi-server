@@ -30,8 +30,7 @@ exports.handle = async (req, res) => {
     if (fraudStatus === 'challenge') {
       await updateUser(user.id, {
         name: user.name,
-        university: user.university,
-        ADIMember: 0
+        university: user.university
       });
       await transactions.update(transactionId, 'Transaksi Gagal');
       notifications.send(user.id, {
@@ -44,7 +43,7 @@ exports.handle = async (req, res) => {
       await updateUser(user.id, {
         name: user.name,
         university: user.university,
-        ADIMember: Date.now + 31560000000000
+        ADIMember: Date.now() + 31560000000000
       });
       await transactions.update(transactionId, 'Transaksi Berhasil');
       notifications.send(user.id, {
@@ -58,7 +57,7 @@ exports.handle = async (req, res) => {
     await updateUser(user.id, {
       name: user.name,
       university: user.university,
-      ADIMember: Date.now + 31560000000000
+      ADIMember: Date.now() + 31560000000000
     });
     await transactions.update(transactionId, 'Transaksi Berhasil');
     notifications.send(user.id, {
@@ -70,8 +69,7 @@ exports.handle = async (req, res) => {
   } else if (transactionStatus === 'cancel' || transactionStatus == 'deny') {
     await updateUser(user.id, {
       name: user.name,
-      university: user.university,
-      ADIMember: 0
+      university: user.university
     });
     await transactions.update(transactionId, 'Transaksi Gagal');
     notifications.send(user.id, {
@@ -83,8 +81,7 @@ exports.handle = async (req, res) => {
   } else if (transactionStatus === 'pending') {
     await updateUser(user.id, {
       name: user.name,
-      university: user.university,
-      ADIMember: 0
+      university: user.university
     });
     await transactions.update(transactionId, 'Menunggu Pembayaran');
     notifications.send(user.id, {
@@ -96,8 +93,7 @@ exports.handle = async (req, res) => {
   } else if (transactionStatus === 'expire') {
     await updateUser(user.id, {
       name: user.name,
-      university: user.university,
-      ADIMember: 0
+      university: user.university
     });
     await transactions.update(transactionId, 'Transaksi Kadaluarsa');
     notifications.send(user.id, {
