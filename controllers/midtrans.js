@@ -1,4 +1,5 @@
 const midtrans = require('../utils/midtrans');
+const { updateUser } = require('../utils/user');
 const transactions = require('../utils/transactions');
 const notifications = require('../utils/notifications');
 
@@ -24,6 +25,8 @@ exports.handle = async (req, res) => {
   const fraudStatus = rawData.fraud_status;
   const product = JSON.parse(rawData.custom_field1);
   const user = JSON.parse(rawData.custom_field2);
+
+  await updateUser(user.id, { name: user.name, university: user.university });
 
   if (transactionStatus === 'capture') {
     if (fraudStatus === 'challenge') {
